@@ -19,29 +19,50 @@ namespace Malshinon.DAL
         public static object InsertReport(Report newReport)
         {
             bool hasTime = newReport.GetReportTime() != null;
+            int reporterId = newReport.GetReporterId();
+            int targetId = newReport.GetTergetId();
+
+            List<Dictionary<string, object>> allPeoples = PeopleDAL.GetAllPeoples();
+
+            bool reporterExists = allPeoples.Any(p => Convert.ToInt32(p["id"]) == reporterId);
+            if (!reporterExists)
+            {
+                Console.WriteLine($"Reporter ID {reporterId} does not exist.");
+                return null;
+            }
+            bool targetExists = allPeoples.Any(p => Convert.ToInt32(p["id"]) == targetId);
+            if (!targetExists)
+            {
+                Console.WriteLine($"Target ID {targetId} does not exist.");
+                return null;
+            }
 
             string columns = "reporterId, targetId, reportText";
-            string values = $"'{newReport.GetReporterId()}', '{newReport.GetTergetId()}', '{newReport.GetText()}'";
+            string values = $"'{reporterId}', '{targetId}', '{newReport.GetText()}'";
 
             if (hasTime)
             {
                 columns += ", submittedAt";
                 values += $", '{newReport.GetReportTime():yyyy-MM-dd HH:mm:ss}'";
             }
+
             string SQLQuery = $"INSERT INTO reports ({columns}) VALUES ({values})";
             var result = DBConnection.Execute(SQLQuery);
 
-            if (PeopleDAL.IsDangerous(newReport.GetTergetId()))
+            if (PeopleDAL.IsDangerous(targetId))
             {
-                Console.WriteLine($"People with id {newReport.GetTergetId()} is dangerous!");
-                PeopleDAL.MakePeopleDangerous(newReport.GetTergetId());
+                Console.WriteLine($"People with id {targetId} is dangerous!");
+                PeopleDAL.MakePeopleDangerous(targetId);
             }
-            if (PeopleDAL.IsAgent(newReport.GetReporterId()))
+
+            if (PeopleDAL.IsAgent(reporterId))
             {
-                Console.WriteLine($"People with id {newReport.GetReporterId()} is agent!");
-                PeopleDAL.MakePeopleAgent(newReport.GetReporterId());
+                Console.WriteLine($"People with id {reporterId} is agent!");
+                PeopleDAL.MakePeopleAgent(reporterId);
             }
+            Console.WriteLine($"Report {newReport.GetReporterId()} -> {newReport.GetTergetId()} added succusfully.");
             return result;
         }
+
     }
 }

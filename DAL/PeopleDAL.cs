@@ -36,6 +36,7 @@ namespace Malshinon.DAL
             string SQLQuery = ($"INSERT INTO peoples (FullName, SecretCode, IsAgent, IsDangerous)" +
                 $"VALUES('{newPeople.GetFullName()}', '{newPeople.GetSecretCode()}', '{newPeople.IsPeopleAgent()}', '{newPeople.IsPeopleDangerous()}');");
             var result = DBConnection.Execute(SQLQuery);
+            Console.WriteLine($"People '{newPeople.GetFullName()}' added succesfully.");
             return result;
         }
 
@@ -89,8 +90,8 @@ namespace Malshinon.DAL
                                 WHERE id = {newDangerousId}";
             var result = DBConnection.Execute(SQLQuery);
         }
-
-        public static bool Is10Reports(int reporterID)
+        //-----------------
+        private static bool Is10Reports(int reporterID)
         {
             string SQLQuery = $@"SELECT COUNT(*) AS count FROM reports WHERE reporterId = {reporterID}";
 
@@ -105,7 +106,7 @@ namespace Malshinon.DAL
             }
             return false;
         }
-        public static bool IsAvgOfReport100(int reporterID)
+        private static bool IsAvgOfReport100(int reporterID)
         {
             string SQLQuery = $@"
                 SELECT AVG(CHAR_LENGTH(reportText)) AS avgLength
@@ -118,7 +119,7 @@ namespace Malshinon.DAL
             {
                 if (avgObj != null && double.TryParse(avgObj.ToString(), out double avg))
                 {
-                    return avg >= 10;
+                    return avg >= 100;
                 }
             }
             return false;

@@ -23,16 +23,16 @@ namespace Malshinon
             new People("Noa Siman-Tov", "The Fox");
             new People("Gadi Peleg", "The Lion");
 
-            new Report(1, 2, "Suspicious behavior", new DateTime(2024, 10, 3, 14, 03, 00));
-            new Report(1, 3, "Keeps looking over shoulder");
+            new Report(17, 16, "Suspicious behavior", new DateTime(2024, 10, 3, 14, 13, 00));
+            new Report(23, 24, "Keeps looking over shoulder");
             new Report(4, 2, "Accessed restricted area");
             new Report(5, 2, "Asked strange questions");
-            new Report(6, 7, "Too quiet, never speaks");
+            new Report(23, 24, "Too quiet, never speaks");
             new Report(1, 2, "Again acting weird");
-            new Report(3, 4, "Seems nervous");
+            new Report(23, 24, "Seems nervous");
             new Report(1, 2, "Repeated access attempts");
             new Report(8, 9, "Wears sunglasses indoors");
-            new Report(10, 2, "Too many logins");
+            new Report(23, 24, "Too many logins");
         }
     }
 }
