@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Malshinon.DAL;
 
 namespace Malshinon.Classes
 {
@@ -26,6 +27,7 @@ namespace Malshinon.Classes
             SecretCode = secretCode;
             IsAgent = false;
             IsDangerous = false;
+            PeopleDAL.InsertNewPeople(this);
         }
     }
 }

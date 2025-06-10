@@ -16,11 +16,31 @@ namespace Malshinon.DAL
             DBConnection.PrintResult(result);
             return result;
         }
-        static public object InsertReport(Report newReport)
+        public static object InsertReport(Report newReport)
         {
-            string SQLQuery = $"INSERT INTO reports (reporterId, targetId, reportText, submittedAt)" +
-                $"VALUES('{newReport.GetReporterId()}', '{newReport.GetTergetId()}', '{newReport.GetText()}', '{newReport.GetReportTime()}')";
+            bool hasTime = newReport.GetReportTime() != null;
+
+            string columns = "reporterId, targetId, reportText";
+            string values = $"'{newReport.GetReporterId()}', '{newReport.GetTergetId()}', '{newReport.GetText()}'";
+
+            if (hasTime)
+            {
+                columns += ", submittedAt";
+                values += $", '{newReport.GetReportTime():yyyy-MM-dd HH:mm:ss}'";
+            }
+            string SQLQuery = $"INSERT INTO reports ({columns}) VALUES ({values})";
             var result = DBConnection.Execute(SQLQuery);
+
+            if (PeopleDAL.IsDangerous(newReport.GetTergetId()))
+            {
+                Console.WriteLine($"People with id {newReport.GetTergetId()} is dangerous!");
+                PeopleDAL.MakePeopleDangerous(newReport.GetTergetId());
+            }
+            if (PeopleDAL.IsAgent(newReport.GetReporterId()))
+            {
+                Console.WriteLine($"People with id {newReport.GetReporterId()} is agent!");
+                PeopleDAL.MakePeopleAgent(newReport.GetReporterId());
+            }
             return result;
         }
     }

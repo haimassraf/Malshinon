@@ -95,8 +95,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\People.cs" />
-    <Compile Include="Classes\Report.cs" />
+    <Compile Include="models\People.cs" />
+    <Compile Include="models\Report.cs" />
     <Compile Include="DAL\PeopleDAL.cs" />
     <Compile Include="DAL\ReportDAL.cs" />
     <Compile Include="DBConnection.cs" />
