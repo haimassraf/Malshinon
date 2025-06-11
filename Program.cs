@@ -50,7 +50,6 @@ namespace Malshinon
 
         static void ShowMenu()
         {
-            Console.WriteLine("========== MENU ==========");
             Console.WriteLine("1 - Add new person");
             Console.WriteLine("2 - Insert new report");
             Console.WriteLine("3 - Import CSV");
@@ -101,7 +100,7 @@ namespace Malshinon
 
         static void ImportCsv()
         {
-            Console.WriteLine("Our system still work on this...");
+            CSV.ImportCsv();
         }
 
         static void ShowAllLogs()

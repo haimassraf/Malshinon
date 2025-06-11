@@ -55,3 +55,25 @@
 [2025-06-11 16:16:10] The secret code allreaey in used, please enter new secret code.
 [2025-06-11 16:16:27] The secret code allreaey in used, please enter new secret code.
 [2025-06-11 16:17:03] Report 34 -> 32 added succusfully.
+[2025-06-11 17:18:47] Report 23 -> 24 added succusfully.
+[2025-06-11 17:18:47] Report 25 -> 31 added succusfully.
+[2025-06-11 17:18:47] Report 30 -> 28 added succusfully.
+[2025-06-11 17:18:47] Report 29 -> 32 added succusfully.
+[2025-06-11 17:18:47] Report 27 -> 26 added succusfully.
+[2025-06-11 17:18:47] CSVImport: Imported 5 reports from C:\Users\haima\Downloads\sample_reports.csv
+[2025-06-11 17:25:04] People 'Noam Levi' added succesfully.
+[2025-06-11 17:25:04] People 'Tamar Azulay' added succesfully.
+[2025-06-11 17:25:04] Report 42 -> 43 added succusfully.
+[2025-06-11 17:25:04] People 'Aviv Cohen' added succesfully.
+[2025-06-11 17:25:04] People 'Ron Peleg' added succesfully.
+[2025-06-11 17:25:04] Report 44 -> 45 added succusfully.
+[2025-06-11 17:25:04] People 'Dana Levi' added succesfully.
+[2025-06-11 17:25:04] People 'Gadi Mizrahi' added succesfully.
+[2025-06-11 17:25:04] Report 46 -> 47 added succusfully.
+[2025-06-11 17:25:04] People 'Itay Bar' added succesfully.
+[2025-06-11 17:25:04] People 'Yossi Barak' added succesfully.
+[2025-06-11 17:25:04] Report 48 -> 49 added succusfully.
+[2025-06-11 17:25:04] People 'Lior Dan' added succesfully.
+[2025-06-11 17:25:04] People 'Noga Siman-Tov' added succesfully.
+[2025-06-11 17:25:04] Report 50 -> 51 added succusfully.
+[2025-06-11 17:25:04] CSVImport: Imported 5 reports from C:\Users\Studies\kodcode\kodCodeIdf\Malshinon\CSV\sample_reports_unique_codes.csv
