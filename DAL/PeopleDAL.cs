@@ -96,7 +96,7 @@ namespace Malshinon.DAL
             }
             return false;
         }
-        public static bool IsDangerous(int targetID) => Is20Targets(targetID) && Is3MessagesIn15Minutes(targetID);
+        public static bool IsDangerous(int targetID) => Is20Targets(targetID) || Is3MessagesIn15Minutes(targetID);
         public static void MakePeopleDangerous(int newDangerousId)
         {
             string SQLQuery = $@"UPDATE peoples
@@ -140,7 +140,7 @@ namespace Malshinon.DAL
             }
             return false;
         }
-        public static bool IsAgent(int reporterID) => Is10Reports(reporterID) && IsAvgOfReport100(reporterID);
+        public static bool IsAgent(int reporterID) => Is10Reports(reporterID) || IsAvgOfReport100(reporterID);
         public static void MakePeopleAgent(int newAgentId)
         {
             string SQLQuery = $@"UPDATE peoples

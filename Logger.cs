@@ -17,11 +17,11 @@ namespace Malshinon
         }
         public static string Read()
         {
-            if (!File.Exists("log.txt"))
+            if (!File.Exists("C:\\Users\\Studies\\kodcode\\kodCodeIdf\\Malshinon\\log.txt"))
             {
                 return string.Empty;
             }
-            return File.ReadAllText("log.txt");
+            return File.ReadAllText("C:\\Users\\Studies\\kodcode\\kodCodeIdf\\Malshinon\\log.txt");
         }
     }
 }

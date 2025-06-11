@@ -9,11 +9,17 @@ namespace Malshinon.DAL
 {
     static class ReportDAL
     {
-        static public List<Dictionary<string, object>> GetAllReports()
+        static public void ShowAllReports()
         {
             string SQLQuery = $"SELECT * FROM reports";
             var result = DBConnection.Execute(SQLQuery);
             DBConnection.PrintResult(result);
+        }
+
+        static public List<Dictionary<string, object>> GetAllReports()
+        {
+            string SQLQuery = $"SELECT * FROM reports";
+            var result = DBConnection.Execute(SQLQuery);
             return result;
         }
         public static object InsertReport(Report newReport)

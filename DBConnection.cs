@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MySql.Data.MySqlClient;
 
 namespace Malshinon
@@ -67,12 +68,63 @@ namespace Malshinon
                 return;
             }
 
+            var headers = keyValuePairs[0].Keys.ToList();
+
+            // חישוב רוחב כל עמודה
+            var columnWidths = new Dictionary<string, int>();
+            foreach (var header in headers)
+            {
+                int maxWidth = header.Length;
+                foreach (var row in keyValuePairs)
+                {
+                    string valueStr = row[header]?.ToString() ?? "";
+                    if (valueStr.Length > maxWidth)
+                        maxWidth = valueStr.Length;
+                }
+                columnWidths[header] = maxWidth + 2;
+            }
+
+            // הדפסת שורת כותרת
+            string separatorLine = "+";
+            foreach (var header in headers)
+                separatorLine += new string('-', columnWidths[header]) + "+";
+
+            string headerLine = "|";
+            foreach (var header in headers)
+                headerLine += " " + header.PadRight(columnWidths[header] - 1) + "|";
+
+            Console.WriteLine(separatorLine);
+            Console.WriteLine(headerLine);
+            Console.WriteLine(separatorLine);
+
+            // הדפסת תוכן
             foreach (var row in keyValuePairs)
             {
-                foreach (var kv in row)
-                    Console.WriteLine($"{kv.Key}: {kv.Value}");
-                Console.WriteLine("---");
+                Console.Write("|");
+                foreach (var header in headers)
+                {
+                    object valueObj = row[header];
+                    string valueStr = valueObj?.ToString() ?? "";
+
+                    // בדיקה אם בוליאני
+                    if (valueObj is bool boolVal)
+                    {
+                        Console.ForegroundColor = boolVal ? ConsoleColor.Green : ConsoleColor.Red;
+                        Console.Write(" " + valueStr.PadRight(columnWidths[header] - 1));
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.Write(" " + valueStr.PadRight(columnWidths[header] - 1));
+                    }
+
+                    Console.Write("|");
+                }
+                Console.WriteLine();
             }
+
+            Console.WriteLine(separatorLine);
         }
+
     }
 }
