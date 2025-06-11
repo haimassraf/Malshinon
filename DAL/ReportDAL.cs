@@ -27,13 +27,14 @@ namespace Malshinon.DAL
             bool reporterExists = allPeoples.Any(p => Convert.ToInt32(p["id"]) == reporterId);
             if (!reporterExists)
             {
+                Logger.Log($"Reporter ID {reporterId} does not exist.");
                 Console.WriteLine($"Reporter ID {reporterId} does not exist.");
                 return null;
             }
             bool targetExists = allPeoples.Any(p => Convert.ToInt32(p["id"]) == targetId);
             if (!targetExists)
             {
-                Console.WriteLine($"Target ID {targetId} does not exist.");
+                Logger.Log($"Target ID {targetId} does not exist.");
                 return null;
             }
 
@@ -51,16 +52,16 @@ namespace Malshinon.DAL
 
             if (PeopleDAL.IsDangerous(targetId))
             {
-                Console.WriteLine($"People with id {targetId} is dangerous!");
+                Logger.Log($"People with id {targetId} is dangerous!");
                 PeopleDAL.MakePeopleDangerous(targetId);
             }
 
             if (PeopleDAL.IsAgent(reporterId))
             {
-                Console.WriteLine($"People with id {reporterId} is agent!");
+                Logger.Log($"People with id {reporterId} is agent!");
                 PeopleDAL.MakePeopleAgent(reporterId);
             }
-            Console.WriteLine($"Report {newReport.GetReporterId()} -> {newReport.GetTergetId()} added succusfully.");
+            Logger.Log($"Report {newReport.GetReporterId()} -> {newReport.GetTergetId()} added succusfully.");
             return result;
         }
 

@@ -29,17 +29,31 @@ namespace Malshinon.DAL
             {
                 if (people["secretCode"]?.ToString() == newPeople.GetSecretCode())
                 {
-                    Console.WriteLine("The secret code allreaey in used, please enter new secret code.");
+                    Logger.Log("The secret code allreaey in used, please enter new secret code.");
                     return null;
                 }
             }
             string SQLQuery = ($"INSERT INTO peoples (FullName, SecretCode, IsAgent, IsDangerous)" +
                 $"VALUES('{newPeople.GetFullName()}', '{newPeople.GetSecretCode()}', '{newPeople.IsPeopleAgent()}', '{newPeople.IsPeopleDangerous()}');");
             var result = DBConnection.Execute(SQLQuery);
-            Console.WriteLine($"People '{newPeople.GetFullName()}' added succesfully.");
+            Logger.Log($"People '{newPeople.GetFullName()}' added succesfully.");
             return result;
         }
 
+        public static int? GetIdBySecretCode(string secretCode)
+        {
+            string SQLQuery = $@"SELECT id FROM peoples
+                                 WHERE secretCode = '{secretCode}';";
+            List<Dictionary<string, object>> result = DBConnection.Execute(SQLQuery);
+            if (result.Count == 0) {
+                Console.WriteLine($"Secret code: {secretCode} does not found.");
+                return null;
+            }
+            object id = result[0]["id"];
+            return Convert.ToInt32(id);
+        }
+
+        //----------------- Dangerous function ---------------
         private static bool Is20Targets(int targetID)
         {
             string SQLQuery = $"SELECT COUNT(*) FROM reports WHERE targetId = {targetID}";
@@ -90,7 +104,9 @@ namespace Malshinon.DAL
                                 WHERE id = {newDangerousId}";
             var result = DBConnection.Execute(SQLQuery);
         }
-        //-----------------
+
+
+        //----------------- Agent function -------------------
         private static bool Is10Reports(int reporterID)
         {
             string SQLQuery = $@"SELECT COUNT(*) AS count FROM reports WHERE reporterId = {reporterID}";

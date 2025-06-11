@@ -95,7 +95,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CSV.cs" />
     <Compile Include="factory\PeopleFactory.cs" />
+    <Compile Include="factory\ReportFacrory.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="models\People.cs" />
     <Compile Include="models\Report.cs" />
     <Compile Include="DAL\PeopleDAL.cs" />
@@ -107,6 +110,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="log.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
