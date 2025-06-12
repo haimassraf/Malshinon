@@ -77,3 +77,13 @@
 [2025-06-11 17:25:04] People 'Noga Siman-Tov' added succesfully.
 [2025-06-11 17:25:04] Report 50 -> 51 added succusfully.
 [2025-06-11 17:25:04] CSVImport: Imported 5 reports from C:\Users\Studies\kodcode\kodCodeIdf\Malshinon\CSV\sample_reports_unique_codes.csv
+[2025-06-12 11:34:40] People 'haim' added succesfully.
+[2025-06-12 11:37:04] People 'uriel' added succesfully.
+[2025-06-12 11:39:04] Report 30 -> 53 added succusfully.
+[2025-06-12 11:40:49] People 'ha' added succesfully.
+[2025-06-12 11:40:52] Report 32 -> 54 added succusfully.
+[2025-06-12 11:43:03] People '567' added succesfully.
+[2025-06-12 11:43:18] The secret code allreaey in used, please enter new secret code.
+[2025-06-12 11:44:19] People 'hosef' added succesfully.
+[2025-06-12 11:44:47] Report 55 -> 56 added succusfully.
+[2025-06-12 11:51:23] Report 55 -> 56 added succusfully.

@@ -13,6 +13,7 @@ namespace Malshinon
 
             while (true)
             {
+
                 ShowMenu();
                 string choice = Console.ReadLine().Trim();
 
@@ -36,6 +37,9 @@ namespace Malshinon
                     case "6":
                         ShowAllReports();
                         break;
+                    case "7":
+                        ShowAllPeopleInformation();
+                        break;
                     case "0":
                         Console.WriteLine("Exiting... Goodbye!");
                         return;
@@ -50,14 +54,15 @@ namespace Malshinon
 
         static void ShowMenu()
         {
-            Console.WriteLine("1 - Add new person");
-            Console.WriteLine("2 - Insert new report");
-            Console.WriteLine("3 - Import CSV");
-            Console.WriteLine("4 - Show all logs");
-            Console.WriteLine("5 - Show all people");
-            Console.WriteLine("6 - Show all reports");
-            Console.WriteLine("0 - Exit");
-            Console.Write("Choose an option: ");
+            Console.WriteLine("\t1 - Add new person");
+            Console.WriteLine("\t2 - Insert new report");
+            Console.WriteLine("\t3 - Import CSV");
+            Console.WriteLine("\t4 - Show all logs");
+            Console.WriteLine("\t5 - Show all people");
+            Console.WriteLine("\t6 - Show all reports");
+            Console.WriteLine("\t7 - Show all people information");
+            Console.WriteLine("\t0 - Exit");
+            Console.Write("\tChoose an option: ");
         }
 
         static void AddNewPerson()
@@ -65,7 +70,7 @@ namespace Malshinon
             Console.WriteLine("Enter a full name for the new person: ");
             string fullName = Console.ReadLine().Trim();
             Console.WriteLine("Enter a secret code for the new person (must be unique): ");
-            string secretCode = Console.ReadLine().Trim();
+            string secretCode = Console.ReadLine().Trim().ToLower();
             PeopleFactory.AddPeople(secretCode, fullName);
         }
 
@@ -116,6 +121,11 @@ namespace Malshinon
         static void ShowAllReports()
         {
             ReportDAL.ShowAllReports();
+        }
+
+        static void ShowAllPeopleInformation()
+        {
+            PeopleDAL.ShowAllPeoplesInformation();
         }
         static void sendingWithAddTime(int reporterId, int targetId, string text)
         {

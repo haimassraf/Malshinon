@@ -27,7 +27,7 @@ namespace Malshinon.DAL
             List<Dictionary<string, object>> allPeople = GetAllPeoples();
             foreach (Dictionary<string, object> people in allPeople)
             {
-                if (people["secretCode"]?.ToString() == newPeople.GetSecretCode())
+                if (people["secretCode"]?.ToString().ToLower() == newPeople.GetSecretCode().ToLower())
                 {
                     Logger.Log("The secret code allreaey in used, please enter new secret code.");
                     return null;
@@ -45,12 +45,63 @@ namespace Malshinon.DAL
             string SQLQuery = $@"SELECT id FROM peoples
                                  WHERE secretCode = '{secretCode}';";
             List<Dictionary<string, object>> result = DBConnection.Execute(SQLQuery);
-            if (result.Count == 0) {
-                Console.WriteLine($"Secret code: {secretCode} does not found.");
+            if (result.Count == 0)
+            {
+                Console.WriteLine($"Secret code: '{secretCode}' does not found.");
                 return null;
             }
             object id = result[0]["id"];
             return Convert.ToInt32(id);
+        }
+
+        public static List<Dictionary<string, object>> GetAllPeoplesInformation()
+        {
+            string SQLQuery = @"SELECT
+                    p.id,
+                    p.fullName,
+                    p.isAgent,
+                    p.isDangerous,
+                    COALESCE(reports_made.count, 0) AS reports_made,
+                    COALESCE(reports_received.count, 0) AS reports_received
+                FROM
+                    peoples p
+                LEFT JOIN (
+                    SELECT reporterId, COUNT(*) AS count
+                    FROM reports
+                    GROUP BY reporterId
+                ) AS reports_made ON p.id = reports_made.reporterId
+                LEFT JOIN (
+                    SELECT targetId, COUNT(*) AS count
+                    FROM reports
+                    GROUP BY targetId
+                ) AS reports_received ON p.id = reports_received.targetId;";
+            var result = DBConnection.Execute(SQLQuery);
+            return result;
+        }
+
+        public static void ShowAllPeoplesInformation()
+        {
+            string SQLQuery = @"SELECT
+                    p.id,
+                    p.fullName,
+                    p.isAgent,
+                    p.isDangerous,
+                    COALESCE(reports_made.count, 0) AS reports_made,
+                    COALESCE(reports_received.count, 0) AS reports_received
+                FROM
+                    peoples p
+                LEFT JOIN (
+                    SELECT reporterId, COUNT(*) AS count
+                    FROM reports
+                    GROUP BY reporterId
+                ) AS reports_made ON p.id = reports_made.reporterId
+                LEFT JOIN (
+                    SELECT targetId, COUNT(*) AS count
+                    FROM reports
+                    GROUP BY targetId
+                ) AS reports_received ON p.id = reports_received.targetId;";
+            var result = DBConnection.Execute(SQLQuery);
+            DBConnection.PrintResult(result);
         }
 
         //----------------- Dangerous function ---------------
