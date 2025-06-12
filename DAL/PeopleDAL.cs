@@ -59,6 +59,7 @@ namespace Malshinon.DAL
             string SQLQuery = @"SELECT
                     p.id,
                     p.fullName,
+                    p.secretCode,
                     p.isAgent,
                     p.isDangerous,
                     COALESCE(reports_made.count, 0) AS reports_made,
@@ -82,8 +83,8 @@ namespace Malshinon.DAL
         public static void ShowAllPeoplesInformation()
         {
             string SQLQuery = @"SELECT
-                    p.id,
                     p.fullName,
+                    p.secretCode,
                     p.isAgent,
                     p.isDangerous,
                     COALESCE(reports_made.count, 0) AS reports_made,

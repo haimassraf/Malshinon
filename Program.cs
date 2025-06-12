@@ -9,13 +9,12 @@ namespace Malshinon
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to Malshinon system!");
+            Console.WriteLine("\t==== Welcome to Malshinon system! ====");
 
             while (true)
             {
-
                 ShowMenu();
-                string choice = Console.ReadLine().Trim();
+                string choice = ReadInput("Choose an option:");
 
                 switch (choice)
                 {
@@ -44,62 +43,62 @@ namespace Malshinon
                         Console.WriteLine("Exiting... Goodbye!");
                         return;
                     default:
-                        Console.WriteLine("Invalid choice, please try again.");
+                        PrintError("Invalid choice, please try again.");
                         break;
                 }
-
-                Console.WriteLine();
             }
         }
 
         static void ShowMenu()
         {
-            Console.WriteLine("\t1 - Add new person");
-            Console.WriteLine("\t2 - Insert new report");
-            Console.WriteLine("\t3 - Import CSV");
-            Console.WriteLine("\t4 - Show all logs");
-            Console.WriteLine("\t5 - Show all people");
-            Console.WriteLine("\t6 - Show all reports");
-            Console.WriteLine("\t7 - Show all people information");
-            Console.WriteLine("\t0 - Exit");
-            Console.Write("\tChoose an option: ");
+            Console.WriteLine("==== Malshinon Menu ====");
+            Console.WriteLine("1 - Add new person");
+            Console.WriteLine("2 - Insert new report");
+            Console.WriteLine("3 - Import CSV");
+            Console.WriteLine("4 - Show all logs");
+            Console.WriteLine("5 - Show all people");
+            Console.WriteLine("6 - Show all reports");
+            Console.WriteLine("7 - Show dashboard");
+            Console.WriteLine("0 - Exit");
         }
 
         static void AddNewPerson()
         {
-            Console.WriteLine("Enter a full name for the new person: ");
-            string fullName = Console.ReadLine().Trim();
-            Console.WriteLine("Enter a secret code for the new person (must be unique): ");
-            string secretCode = Console.ReadLine().Trim().ToLower();
+            string fullName = ReadInput("Enter a full name for the new person:");
+            string secretCode = ReadInput("Enter a secret code for the new person (must be unique):", true);
+
             PeopleFactory.AddPeople(secretCode, fullName);
         }
 
         static void InsertNewReport()
         {
-            Console.WriteLine("Please enter the secret code of the reporter: ");
-            string reporterSecretCode = Console.ReadLine().Trim().ToLower();
+            string reporterSecretCode = ReadInput("Please enter the secret code of the reporter:", true);
             int? reporterId = GetOrCreatePersonId(reporterSecretCode);
-            if (reporterId is null) return;
+            if (reporterId is null)
+            {
+                PrintError("Cannot proceed without valid reporter.");
+                return;
+            }
 
-            Console.WriteLine("Please enter the secret code of the target: ");
-            string targetSecretCode = Console.ReadLine().Trim().ToLower();
+            string targetSecretCode = ReadInput("Please enter the secret code of the target:", true);
             int? targetId = GetOrCreatePersonId(targetSecretCode);
-            if (targetId is null) return;
+            if (targetId is null)
+            {
+                PrintError("Cannot proceed without valid target.");
+                return;
+            }
 
-            Console.WriteLine("Enter the content of the report:");
-            string text = Console.ReadLine();
-
-            Console.WriteLine("Do you want to enter the time of the report? (Y)");
-            string choice = Console.ReadLine().Trim().ToLower();
+            string text = ReadInput("Enter the content of the report:");
+            string choice = ReadInput("Do you want to enter the time of the report? (Y)\n\tPress any key to choose current time: ", true);
 
             if (choice == "y")
             {
-                sendingWithAddTime(reporterId.Value, targetId.Value, text);
+                SendingWithAddTime(reporterId.Value, targetId.Value, text);
             }
             else
             {
                 ReportFacrory.AddReoport(reporterId.Value, targetId.Value, text);
-                Console.WriteLine("Report without time was successfully added.");
+                Console.WriteLine("Report with current time was successfully added.");
             }
         }
 
@@ -127,44 +126,22 @@ namespace Malshinon
         {
             PeopleDAL.ShowAllPeoplesInformation();
         }
-        static void sendingWithAddTime(int reporterId, int targetId, string text)
+
+        static void SendingWithAddTime(int reporterId, int targetId, string text)
         {
-            DateTime reportTime;
-            bool isValidTime = false;
-
-            do
+            while (true)
             {
-                Console.WriteLine("Enter the time in format 'YEAR/MONTH/DAY/HOUR/MINUTE/SECOND':");
-                string timeInput = Console.ReadLine().Trim();
-                string[] parts = timeInput.Split('/');
+                string input = ReadInput("Enter the time in format 'YEAR/MONTH/DAY/HOUR/MINUTE/SECOND':");
 
-                if (parts.Length == 6 &&
-                    int.TryParse(parts[0], out int year) &&
-                    int.TryParse(parts[1], out int month) &&
-                    int.TryParse(parts[2], out int day) &&
-                    int.TryParse(parts[3], out int hour) &&
-                    int.TryParse(parts[4], out int minute) &&
-                    int.TryParse(parts[5], out int second))
+                if (DateTime.TryParseExact(input, "yyyy/M/d/H/m/s", null, System.Globalization.DateTimeStyles.None, out DateTime reportTime))
                 {
-                    try
-                    {
-                        reportTime = new DateTime(year, month, day, hour, minute, second);
-                        isValidTime = true;
-
-                        ReportFacrory.AddReoport(reporterId, targetId, text, reportTime);
-                        Console.WriteLine("Report with time was successfully added.");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Error creating DateTime: " + ex.Message);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("Invalid time format. Please try again.");
+                    ReportFacrory.AddReoport(reporterId, targetId, text, reportTime);
+                    Console.WriteLine("Report with original time was successfully added.");
+                    return;
                 }
 
-            } while (!isValidTime);
+                PrintError("Invalid time format. Try again.");
+            }
         }
 
         static int? GetOrCreatePersonId(string secretCode)
@@ -173,8 +150,7 @@ namespace Malshinon
             if (personId is null)
             {
                 Console.WriteLine("Secret code not found.");
-                Console.WriteLine("Do you want to create a new person with this secret code? (Y)");
-                string createChoice = Console.ReadLine().Trim().ToLower();
+                string createChoice = ReadInput("Do you want to create a new person with this secret code? (Y)", true);
 
                 if (createChoice == "y")
                 {
@@ -183,6 +159,20 @@ namespace Malshinon
                 }
             }
             return personId;
+        }
+
+        static string ReadInput(string prompt, bool toLower = false)
+        {
+            Console.WriteLine(prompt);
+            string input = Console.ReadLine().Trim();
+            return toLower ? input.ToLower() : input;
+        }
+
+        static void PrintError(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
     }
 }
